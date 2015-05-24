@@ -12,6 +12,7 @@ from listeners.tick.repeat import TickRepeat
 
 from messages import SayText2
 
+from filters.players import PlayerIter
 
 # ======================================================================
 # >> CLASSES
@@ -246,3 +247,36 @@ def split_string(string, n):
     """
 
     return [string[i:i + n] for i in range(0, len(string), n)]
+ 
+def get_nearby_players(point, radius, is_filters='alive', not_filters=''):
+    """Gets players near a point sorted by their distance to the point.		
+	
+    Args:		
+        point: (x, y, z) coordinates of a 3D point		
+        radius: Radius to look for the players		
+        is_filters: PlayerIter's is_filters		
+        not_filters: PlayerIter's not_filters
+
+    Returns:		
+        A list of players within the given radius from the given point,		
+        sorted by their distance of the point.		
+    """
+    
+    players = set()
+    for player in PlayerIter(is_filters, not_filters, 'player'):
+        if (point.get_distance(player.get_abs_origin()) <= radius):
+            players.add(player)
+    return sorted(players, key = lambda player: point.get_distance(player.get_abs_origin()))
+ 
+def tell(message, *players):
+    """Send message to a player or to everyone on server
+
+    Args:
+        message: Message to send
+        player: Player objects that will get the message, 
+        empty if message was sent to anyone on server
+    """
+    if players:
+        SayText2(message=message).send([player.index for player in players])
+    else:
+        SayText2(message=message).send()

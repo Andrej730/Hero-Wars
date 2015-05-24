@@ -911,6 +911,55 @@ menus['Playerinfo Choose'] = ForwardMenu(
     build_callback=_players_build_callback
 )
 
+# ======================================================================
+# >> RENDER MODE MENU
+# ======================================================================
+
+def _render_select_callback(menu, player_index, choice):
+    """Render mode menu's select_callback function."""
+    player = Player(player_index)
+    #print('Previous render_mode is {}'.format(player.render_mode))
+    player.render_mode = choice.value
+    return menu
+    
+def _render_build_callback(menu, player_index):
+    """Render mode menu's build_callback function"""
+    menu.clear()
+    modes = ('Normal', 'Color', 'Texture', 'Glow', 'Solid', 'Additive', 'Undefined', 'Additive fractional Frame', 'Alpha Add', 'World Space Glow', 'Dont Render')
+    for mode in range(11):
+        menu.append(PagedOption('{} - {}'.format(mode, modes[mode]), mode))
+
+        
+menus['Render Mode Menu'] = PagedMenu(
+    title='Render Mode Menu',
+    select_callback=_render_select_callback,
+    build_callback=_render_build_callback
+)
+
+# ======================================================================
+# >> RENDER FX MENU
+# ======================================================================
+
+def _renderfx_select_callback(menu, player_index, choice):
+    """Renderfx menu's select_callback function."""
+    player = Player(player_index)
+    #print('Previous render_fx is {}'.format(player.render_fx))
+    player.render_fx = choice.value
+    return menu
+    
+def _renderfx_build_callback(menu, player_index):
+    """Renderfx menu's build_callback function"""
+    menu.clear()
+    fxmodes = ('Normal', 'Slow Pulse', 'Fast Pulse', 'Slow Wide Pulse', 'Fast Wide Pulse', 'Slow Fade Away', 'Fast Fade Away', 'Slow Become Solid', 'Fast Become Solid', 'Slow Strobe', 'Fast Strobe', 'Faster Strobe', 'Slow Flicker', 'Fast Flicker', 'Constant Glow', 'Distort', 'Hologram (Distort + fade)')
+    for fxmode in range(17):
+        menu.append(PagedOption('{} - {}'.format(fxmode, fxmodes[fxmode]), fxmode))
+
+        
+menus['RenderFX Menu'] = PagedMenu(
+    title='RenderFX Menu',
+    select_callback=_renderfx_select_callback,
+    build_callback=_renderfx_build_callback
+)
 
 # ======================================================================
 # >> ADMIN MENU
@@ -933,7 +982,9 @@ def _admin_build_callback(menu, player_index):
     if player.steamid in admins:
         menu.extend([
             Text('Admin'),
-            SimpleOption(1, 'Player Management', menus['Admin Players Menu'])
+            SimpleOption(1, 'Player Management', menus['Admin Players Menu']),
+            SimpleOption(2, 'Change Render Mode', menus['Render Mode Menu']),
+            SimpleOption(3, 'RenderFX Menu', menus['RenderFX Menu'])
         ])
     else:
         menu.append(Text('Not an admin!'))

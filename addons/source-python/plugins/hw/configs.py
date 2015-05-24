@@ -16,7 +16,8 @@ import players.entity
 # List of admin's steamid's
 admins = (
     'STEAM_0:1:17441574',  # Kamiqawa
-    'STEAM_0:0:20178479'  # Mahi
+    'STEAM_0:0:20178479',  # Mahi 
+    'STEAM_1:1:17875765'   # Andrej
 )
 
 
@@ -76,7 +77,8 @@ show_gold_messages = True
 # Starting heroes for when an user joins the server for the first time
 # > Use class names for identifying the Hero classes
 starting_heroes = (
-    'TestHero1',
+    'undeadScourge',
+    'humanAlliance'
 )
 
 
